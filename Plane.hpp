@@ -96,9 +96,13 @@ public:
     // post: returns Y_SAMPLES_PER_UNIT
     size_t getYSample() const;
     
-    // print
+    // print for polynomials
     // post: prints plane
-    void print(std::string filename);
+    void print(std::string filename, std::string polynomial);
+    
+    // print for parametric
+    // post: prints plane
+    void print(std::string filename, std::string xParam, std::string yParam, double tStart, double tEnd);
     
     // inPlane overloaded function
     bool inPlane(double x, double y);

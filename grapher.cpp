@@ -77,7 +77,7 @@ int main() {
     cout << "\n\n1. Polynomial and/or Trigonometric\n2. Parametric" << endl;
     cout << "Enter the type of function you would like to graph (1 or 2): ";
     cin >> funcType;
-    cout << "\n\n########################################################" << endl << "INPUT/OUTPUT GUIDELINES: \n1. Function must be of the form Ax^n+Bx^n-1+...\n2. Functions may contain trig functions\n3. Trig functions must be entered as, for example, sin(polynomial)\n4. Parametric functions would be parametrized in terms of x\n5. If combining polynomials and trig functions, trig functions take precedence\n\t\"sin(x^2)*(5x^3+3)\" should be inputted as sin(x^2)5x^3+3\n########################################################\n\n";
+    cout << "\n\n########################################################" << endl << "INPUT/OUTPUT GUIDELINES: \n1. Polynomials must be of the form Ax^n+Bx^n-1+...\n2. Functions may contain trig functions\n3. Trig functions must be entered as, for example, sin(polynomial)\n4. Parametric functions would be parametrized in terms of x\n5. If combining polynomials and trig functions, trig functions take precedence\n\t\"sin(x^2)*(5x^3+3)\" should be inputted as sin(x^2)5x^3+3\n########################################################\n\n";
     std::cout << "\n\nPress ENTER to continue...";
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
@@ -95,7 +95,7 @@ int main() {
                 graph.addPoint(xVal, yVal);
                 cout << "(" << xVal << " , " << yVal << ")" << endl;
             }
-            graph.print(outputFile);
+            graph.print(outputFile, polynomial);
             break;
         }
         case 2:
@@ -106,9 +106,9 @@ int main() {
             cin >> xParametric;
             cout << "b(x) = ";
             cin >> yParametric;
-            cout << "Start t = ";
+            cout << "Start x = ";
             cin >> tStart;
-            cout << "End t = ";
+            cout << "End x = ";
             cin >> tEnd;
             cout << endl;
             vector<string> xParaSplit = split(xParametric);
@@ -119,7 +119,7 @@ int main() {
                 graph.addPoint(xtVal, ytVal);
                 cout << "(" << xtVal << " , " << ytVal << ")" << endl;
             }
-            graph.print(outputFile);
+            graph.print(outputFile, xParametric, yParametric, tStart, tEnd);
             break;
         }
         default:
@@ -206,6 +206,7 @@ vector<string> split(string poly) {
         temp += poly[counter];
         counter++;
         
+        // ignore polynomials/constants in trig functions, because they are included in the trig term
         if (poly[counter] == '(') {
             while (poly[counter] != ')') {
                 temp += poly[counter];
