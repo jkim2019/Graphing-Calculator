@@ -176,16 +176,53 @@ size_t Plane::getYSample() const {
 }
 
 
-// print
-// post: prints plane, surrounded with '-' on top and bottom and '|' on sides
-void Plane::print(string filename) {
+// print for polynomials
+// post: prints plane
+void Plane::print(string filename, string polynomial) {
     ofstream outfile;
     outfile.open(filename, ios::ate);
     
     // formatting...
+    outfile << "f(x) = " << polynomial << endl;
     outfile << "X SCALE: 1 char = " << 1/double(X_SAMPLES_PER_UNIT) << "units." << endl;
     outfile << "Y SCALE: 1 char = " << 1/double(Y_SAMPLES_PER_UNIT) << "units." << endl;
     outfile << "Window: -" << x_length << " < x < " << x_length << " | -" << y_length << " < y < " << y_length << endl << endl;
+    
+    outfile << "╔";
+    for (size_t topBorder = 0; topBorder < xIndices; topBorder++) {
+        outfile << "═";
+    }
+    outfile << "╗\n";
+    for (size_t yCol = 0; yCol < yIndices; yCol++) {
+        outfile << "║";
+        for (size_t xCol = 0; xCol < xIndices; xCol++) {
+            outfile << myPlane[yCol][xCol].getCh();
+        }
+        outfile << "║" << endl;
+    }
+    outfile << "╚";
+    for (size_t bottomBorder = 0; bottomBorder < xIndices; bottomBorder++) {
+        outfile << "═";
+    }
+    outfile << "╝";
+    
+    outfile.close();
+}
+
+
+// print for parametric
+// post: prints plane
+void Plane::print(string filename, string xParam, string yParam, double tStart, double tEnd) {
+    ofstream outfile;
+    outfile.open(filename, ios::ate);
+    
+    // formatting...
+    outfile << "a(x) = " << xParam << endl;
+    outfile << "b(x) = " << yParam << endl;
+    outfile << "X SCALE: 1 char = " << 1/double(X_SAMPLES_PER_UNIT) << "units." << endl;
+    outfile << "Y SCALE: 1 char = " << 1/double(Y_SAMPLES_PER_UNIT) << "units." << endl;
+    outfile << "Window: -" << x_length << " < a < " << x_length << " | -" << y_length << " < b < " << y_length << endl;
+    outfile << tStart << " < x < " << tEnd << endl << endl;
     
     outfile << "╔";
     for (size_t topBorder = 0; topBorder < xIndices; topBorder++) {
